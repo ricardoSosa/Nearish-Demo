@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="C:\Users\RIKI\Documents\cursos\Android\nearish\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
+        <dex dex="C:\Users\RIKI\Documents\cursos\Android\nearish\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_e273fdc8afb5bcc0bc5993f2b5b38323018bb307\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\RIKI\Documents\cursos\Android\nearish\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="fa5e03d3ddf342891f02c4a3c1a3a64ad1647b2d">
+        <dex dex="C:\Users\RIKI\Documents\cursos\Android\nearish\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_35ac2a0f96b4a2d62cab5a2896175c32bc032b48\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\RIKI\.android\build-cache\f25f0aeb7809209e4640a018d0b0e0d09857337f\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="21160c044ba984fb2e33b833c89a496becb85cfd">
+        <dex dex="C:\Users\RIKI\Documents\cursos\Android\nearish\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_4dbc3578ee2d2657345b959c054a0c36128a274a\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\RIKI\.android\build-cache\15099f55fda6362b12844f6e66c76d8006ed7a8f\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="3e607ca6e04e85741fa979402b37eb552b811641">
+        <dex dex="C:\Users\RIKI\Documents\cursos\Android\nearish\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_4020e86f0be335fb3569b7c9ad9aa7f77b094969\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\RIKI\.android\build-cache\94993afbec8014b2ee426b961d41867acf78490f\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="6178e31397c24ab1bfc09766832cdcf519621eb7">
+        <dex dex="C:\Users\RIKI\Documents\cursos\Android\nearish\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_567412f48800cfd3ce5cd5b99af30911fb4c40f6\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\RIKI\.android\build-cache\591e51619da7376dce55246d1b202307df718655\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="d695dc4247690369d66c022c6d18190155c61fcd">
+        <dex dex="C:\Users\RIKI\Documents\cursos\Android\nearish\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_6fcb717a955f8ed7797d28aef55cc084d8b79004\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\RIKI\.android\build-cache\287bedc050bcdbf9f5a0c7d20e89aeba4ad72413\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="4b70c5ad05857b8b3b2458777e1b489a96d82f05">
+        <dex dex="C:\Users\RIKI\Documents\cursos\Android\nearish\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_6685d765051141bb7ae443edb1c14468a9380f4c\classes.dex" />
+    </item>
+
+</items>
