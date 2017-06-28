@@ -1,12 +1,17 @@
 package com.enterprise.ij.nearish;
 
+import android.util.Base64;
 import android.util.Log;
+
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.Authenticator;
 import java.net.HttpURLConnection;
+import java.net.PasswordAuthentication;
 import java.net.URL;
 
 public class DownloadUrl {
@@ -15,12 +20,20 @@ public class DownloadUrl {
         String data = "";
         InputStream iStream = null;
         HttpURLConnection urlConnection = null;
+
+        final String user = "admin";
+        final String pass = "password123";
+
         try {
             URL url = new URL(strUrl);
 
             // Creating an http connection to communicate with url
             urlConnection = (HttpURLConnection) url.openConnection();
 
+            // Adding Authentication header
+            String credentials = user + ":" + pass;
+            String credBase64 = Base64.encodeToString(credentials.getBytes(), Base64.DEFAULT).replace("\n", "");
+            urlConnection.setRequestProperty("Authorization", "Basic "+credBase64);
             // Connecting to url
             urlConnection.connect();
 
@@ -45,7 +58,7 @@ public class DownloadUrl {
         } finally {
             iStream.close();
             urlConnection.disconnect();
-        }
-        return data;
+        }        return data;
+
     }
 }

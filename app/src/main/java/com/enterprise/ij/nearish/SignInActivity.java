@@ -3,10 +3,13 @@ package com.enterprise.ij.nearish;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -29,6 +32,10 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.enterprise.ij.nearish.Fragments.MainFragment;
+import com.enterprise.ij.nearish.Fragments.MapViewFragment;
+import com.google.android.gms.maps.MapView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,7 +102,6 @@ public class SignInActivity extends AppCompatActivity implements LoaderCallbacks
                 finish();
             }
         });
-
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -103,9 +109,9 @@ public class SignInActivity extends AppCompatActivity implements LoaderCallbacks
                 //attemptLogin();
                 Intent intent = new Intent(SignInActivity.this, MainActivity.class);
                 startActivity(intent);
+
             }
         });
-
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
     }

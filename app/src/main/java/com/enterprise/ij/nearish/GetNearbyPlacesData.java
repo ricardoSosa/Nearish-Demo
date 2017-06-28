@@ -58,8 +58,57 @@ public class GetNearbyPlacesData  extends AsyncTask<Object, String, String> {
             LatLng latLng = new LatLng(lat, lng);
             markerOptions.position(latLng);
             markerOptions.title(placeName + " : " + vicinity);
+            //Icons
+            String main_type = googlePlace.get("main_type");
+            int icon = R.drawable.red_marker;
+            Log.d("main_type", main_type);
+            switch(main_type) {
+                case "restaurant":
+                    icon = R.drawable.red_marker;
+                    break;
+
+                case "cafe":
+                    icon = R.drawable.orange_marker;
+                    break;
+
+                case "bar":
+                    icon = R.drawable.orange_marker;
+                    break;
+
+                case "bakery":
+                    icon = R.drawable.red_marker;
+                    break;
+
+                case "casino":
+                    icon = R.drawable.orange_marker;
+                    break;
+
+                case "shopping_mall":
+                    icon = R.drawable.blue_marker;
+                    break;
+
+                case "convenience_store":
+                    icon = R.drawable.green_marker;
+                    break;
+
+                case "meal_delivery":
+                    icon = R.drawable.green_marker;
+                    break;
+
+                case "meal_takeaway":
+                    icon = R.drawable.red_marker;
+                    break;
+
+                case "store":
+                    icon = R.drawable.blue_marker;
+                    break;
+
+                case "night_club":
+                    icon = R.drawable.black_marker;
+                    break;
+            }
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(icon));
             mMap.addMarker(markerOptions);
-            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
             //move map camera
             mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
             mMap.animateCamera(CameraUpdateFactory.zoomTo(11));

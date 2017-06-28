@@ -8,13 +8,21 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.enterprise.ij.nearish.GetNearbyPlacesData;
 import com.enterprise.ij.nearish.MapsActivity;
+import com.enterprise.ij.nearish.MySingleton;
 import com.enterprise.ij.nearish.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -32,6 +40,13 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import org.json.JSONObject;
+
+import java.net.Authenticator;
+import java.net.PasswordAuthentication;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by RIKI on 27/06/2017.
@@ -95,6 +110,51 @@ public class MapViewFragment extends Fragment implements GoogleApiClient.Connect
                     buildGoogleApiClient();
                     mMap.setMyLocationEnabled(true);
                 }
+
+                String url = "http://35.197.5.57:9000/places/random";
+                final String user = "admin";
+                final String pass = "password123";
+                Authenticator.setDefault(new Authenticator(){
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(user,pass.toCharArray());
+                    }});
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                })  {
+                        @Override
+                        public Map<String, String> getHeaders() throws AuthFailureError {
+                            HashMap<String, String> params = new HashMap<String, String>();
+                            String creds = "admin:password123";
+                            String auth = "Basic "
+                                    + Base64.encodeToString(creds.getBytes(), Base64.NO_WRAP);
+                            params.put("Content-Type", "application/json");
+                            params.put("Authorization", auth);
+
+                            return params;
+                        }
+                    };
+                try {
+                    jsonObjectRequest.getHeaders();
+                } catch (AuthFailureError authFailureError) {
+                    authFailureError.printStackTrace();
+                }
+                //MySingleton.getInstance(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
+                Object[] DataTransfer = new Object[2];
+                DataTransfer[0] = mMap;
+                DataTransfer[1] = url;
+                Log.d("onClick", url);
+                GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
+                getNearbyPlacesData.execute(DataTransfer);
+                Toast.makeText(getActivity(),"Nearby Restaurants", Toast.LENGTH_LONG).show();
             }
         });
 
