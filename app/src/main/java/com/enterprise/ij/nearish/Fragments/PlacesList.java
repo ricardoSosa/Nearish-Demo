@@ -18,6 +18,8 @@ import com.enterprise.ij.nearish.R;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -37,12 +39,13 @@ public class PlacesList extends Fragment {
 
         googlePlacesData = ((MainActivity) getActivity()).getGooglePlacesData();
         Gson gson = new Gson();
-        DataParser dataParser = new DataParser();
-        List<HashMap<String, String>> placesList = dataParser.parse(googlePlacesData);
+        //DataParser dataParser = new DataParser();
+        //List<HashMap<String, String>> list = dataParser.parse(googlePlacesData);
+        Place[] placesArray = gson.fromJson(googlePlacesData, Place[].class);
+        Collections.addAll(places, placesArray);
 
         PlacesAdapter adapter = new PlacesAdapter(getActivity(),places);
-
-        //placesList.setAdapter(adapter);
+        placesList.setAdapter(adapter);
 
         return rootView;
     }
