@@ -20,9 +20,9 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.enterprise.ij.nearish.GetNearbyPlacesData;
-import com.enterprise.ij.nearish.MapsActivity;
-import com.enterprise.ij.nearish.MySingleton;
+import com.enterprise.ij.nearish.Activities.MainActivity;
+import com.enterprise.ij.nearish.Other.DataParser;
+import com.enterprise.ij.nearish.Other.GetNearbyPlacesData;
 import com.enterprise.ij.nearish.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -36,7 +36,6 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -46,6 +45,7 @@ import org.json.JSONObject;
 import java.net.Authenticator;
 import java.net.PasswordAuthentication;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -105,60 +105,26 @@ public class MapViewFragment extends Fragment implements GoogleApiClient.Connect
                         buildGoogleApiClient();
                         mMap.setMyLocationEnabled(true);
                     }
-                }
-                else {
+                } else {
                     buildGoogleApiClient();
                     mMap.setMyLocationEnabled(true);
                 }
 
-                String url = "http://35.197.5.57:9000/places/random";
-                final String user = "admin";
-                final String pass = "password123";
-                Authenticator.setDefault(new Authenticator(){
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(user,pass.toCharArray());
-                    }});
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
-                        new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-
-                            }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-
-                    }
-                })  {
-                        @Override
-                        public Map<String, String> getHeaders() throws AuthFailureError {
-                            HashMap<String, String> params = new HashMap<String, String>();
-                            String creds = "admin:password123";
-                            String auth = "Basic "
-                                    + Base64.encodeToString(creds.getBytes(), Base64.NO_WRAP);
-                            params.put("Content-Type", "application/json");
-                            params.put("Authorization", auth);
-
-                            return params;
-                        }
-                    };
-                try {
-                    jsonObjectRequest.getHeaders();
-                } catch (AuthFailureError authFailureError) {
-                    authFailureError.printStackTrace();
-                }
-                //MySingleton.getInstance(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
-                Object[] DataTransfer = new Object[2];
-                DataTransfer[0] = mMap;
-                DataTransfer[1] = url;
-                Log.d("onClick", url);
-                GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
-                getNearbyPlacesData.execute(DataTransfer);
-                Toast.makeText(getActivity(),"Nearby Restaurants", Toast.LENGTH_LONG).show();
+                List<HashMap<String, String>> nearbyPlacesList = getPlacesList();
+                ShowNearbyPlaces(nearbyPlacesList);
+                ((MainActivity) getActivity()).enableFabButton();
             }
         });
 
         return rootView;
+    }
+
+    private List<HashMap<String, String>> getPlacesList() {
+        List<HashMap<String, String>> nearbyPlacesList = null;
+        DataParser dataParser = new DataParser();
+        nearbyPlacesList =  dataParser.parse(((MainActivity) getActivity()).getGooglePlacesData());
+
+        return nearbyPlacesList;
     }
 
     private boolean CheckGooglePlayServices() {
@@ -183,6 +149,75 @@ public class MapViewFragment extends Fragment implements GoogleApiClient.Connect
         mGoogleApiClient.connect();
     }
 
+    private void ShowNearbyPlaces(List<HashMap<String, String>> nearbyPlacesList) {
+        for (int i = 0; i < nearbyPlacesList.size(); i++) {
+            Log.d("onPostExecute","Entered into showing locations");
+            MarkerOptions markerOptions = new MarkerOptions();
+            HashMap<String, String> googlePlace = nearbyPlacesList.get(i);
+            double lat = Double.parseDouble(googlePlace.get("lat"));
+            double lng = Double.parseDouble(googlePlace.get("lng"));
+            String placeName = googlePlace.get("place_name");
+            String vicinity = googlePlace.get("vicinity");
+            LatLng latLng = new LatLng(lat, lng);
+            markerOptions.position(latLng);
+            markerOptions.title(placeName + " : " + vicinity);
+            //Icons
+            String main_type = googlePlace.get("main_type");
+            int icon = R.drawable.red_marker;
+            Log.d("main_type", main_type);
+            switch(main_type) {
+                case "restaurant":
+                    icon = R.drawable.red_marker;
+                    break;
+
+                case "cafe":
+                    icon = R.drawable.orange_marker;
+                    break;
+
+                case "bar":
+                    icon = R.drawable.orange_marker;
+                    break;
+
+                case "bakery":
+                    icon = R.drawable.red_marker;
+                    break;
+
+                case "casino":
+                    icon = R.drawable.orange_marker;
+                    break;
+
+                case "shopping_mall":
+                    icon = R.drawable.blue_marker;
+                    break;
+
+                case "convenience_store":
+                    icon = R.drawable.green_marker;
+                    break;
+
+                case "meal_delivery":
+                    icon = R.drawable.green_marker;
+                    break;
+
+                case "meal_takeaway":
+                    icon = R.drawable.red_marker;
+                    break;
+
+                case "store":
+                    icon = R.drawable.blue_marker;
+                    break;
+
+                case "night_club":
+                    icon = R.drawable.black_marker;
+                    break;
+            }
+            markerOptions.icon(BitmapDescriptorFactory.fromResource(icon));
+            mMap.addMarker(markerOptions);
+            //move map camera
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
+        }
+    }
+
     @Override
     public void onConnected(Bundle bundle) {
         mLocationRequest = new LocationRequest();
@@ -194,18 +229,6 @@ public class MapViewFragment extends Fragment implements GoogleApiClient.Connect
                 == PackageManager.PERMISSION_GRANTED) {
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
         }
-    }
-
-    private String getUrl(double latitude, double longitude, String nearbyPlace) {
-
-        StringBuilder googlePlacesUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
-        googlePlacesUrl.append("location=" + latitude + "," + longitude);
-        googlePlacesUrl.append("&radius=" + PROXIMITY_RADIUS);
-        googlePlacesUrl.append("&type=" + nearbyPlace);
-        googlePlacesUrl.append("&sensor=true");
-        googlePlacesUrl.append("&key=" + "AIzaSyATuUiZUkEc_UgHuqsBJa1oqaODI-3mLs0");
-        Log.d("getUrl", googlePlacesUrl.toString());
-        return (googlePlacesUrl.toString());
     }
 
     @Override
