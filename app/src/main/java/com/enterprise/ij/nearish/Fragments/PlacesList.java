@@ -58,7 +58,6 @@ public class PlacesList extends ListFragment {
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
 
-        PlaceDetails placeDetails = new PlaceDetails();
-        //sFm.beginTransaction().replace(R.id.map, placeDetails).addToBackStack(null).commit();
+        ((MainActivity) getActivity()).displayDetails((String) v.getTag());
     }
 }

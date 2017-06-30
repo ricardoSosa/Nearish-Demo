@@ -68,11 +68,13 @@ public class PlacesAdapter extends BaseAdapter {
 
         Place dir = places.get(position);
 
+        v.setTag((String) dir.getId());
+
         TextView placeName = (TextView) v.findViewById(R.id.placeName);
         placeName.setText(dir.getName());
 
         TextView placeDescription = (TextView) v.findViewById(R.id.placeDescription);
-        placeDescription.setText(dir.getDescription());
+        placeDescription.setText(dir.getVicinity());
 
         RatingBar placeRating = (RatingBar) v.findViewById(R.id.placeListRatingBar);
         placeRating.setRating(dir.getRating());
@@ -84,8 +86,6 @@ public class PlacesAdapter extends BaseAdapter {
 
         ImageView imagen = (ImageView) v.findViewById(R.id.placeImage);
         imagen.setImageDrawable(dir.getImage());
-
-
 
         return v;
     }

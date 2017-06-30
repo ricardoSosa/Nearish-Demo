@@ -30,7 +30,6 @@
             >
 
             <TextView
-
                 android:id="@+id/placeDetailsName"
                 android:layout_width="match_parent"
                 android:layout_marginLeft="0dp"
@@ -42,7 +41,7 @@
                 android:textSize="18pt"
                 android:background="@color/Orange"
                 android:textColor="@color/Black"
-                android:text="name"
+                android:text="---"
                 />
 
             <LinearLayout
@@ -53,6 +52,7 @@
                 >
 
                 <TextView
+                    android:id="@+id/placeDetailsRatingNumber"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="3.5"
@@ -89,7 +89,7 @@
             >
 
             <TextView
-                android:id="@+id/placeDetailsDescription"
+                android:id="@+id/placeDetailsVicinity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="25dp"
@@ -97,7 +97,7 @@
 
             <fragment
                 android:id="@+id/placeDetailsMap"
-                android:name="com.enterprise.ij.nearish.PlaceDetailsFragment"
+                android:name="com.enterprise.ij.nearish.Fragments.PlaceDetailsFragment"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:layout_marginBottom="25dp"

@@ -17,7 +17,9 @@ import android.view.View;
 
 import com.enterprise.ij.nearish.Fragments.CategoryList;
 import com.enterprise.ij.nearish.Fragments.MapViewFragment;
+import com.enterprise.ij.nearish.Fragments.PlaceDetails;
 import com.enterprise.ij.nearish.Fragments.PlacesList;
+import com.enterprise.ij.nearish.Models.Place;
 import com.enterprise.ij.nearish.Other.DownloadUrl;
 import com.enterprise.ij.nearish.Other.GetNearbyPlacesData;
 import com.enterprise.ij.nearish.R;
@@ -26,6 +28,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 
 import com.enterprise.ij.nearish.Fragments.ImportFragment;
 import com.enterprise.ij.nearish.Fragments.MainFragment;
+import com.google.gson.Gson;
 
 import java.util.concurrent.ExecutionException;
 
@@ -79,7 +82,7 @@ public class MainActivity extends AppCompatActivity
                 }
                 else {
                     fab.setEnabled(false);
-                    sFm.beginTransaction().replace(R.id.map, sMapFragment).commit();
+                    sFm.beginTransaction().replace(R.id.map, sMapFragment).addToBackStack(null).commit();
                     isMapFragment = true;
                 }
             }
@@ -162,8 +165,30 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    public void displayDetails(String id) {
+        PlaceDetails placeDetails = new PlaceDetails();
+        Bundle args = new Bundle();
+        args.putString("id", id);
+        placeDetails.setArguments(args);
+        sFm.beginTransaction().replace(R.id.map, placeDetails).addToBackStack(null).commit();
+    }
+
     public String getGooglePlacesData() {
         return googlePlacesData;
+    }
+
+    public Place getGooglePlace(String id) {
+        googlePlacesData = getGooglePlacesData();
+        Gson gson = new Gson();
+        //DataParser dataParser = new DataParser();
+        //List<HashMap<String, String>> list = dataParser.parse(googlePlacesData);
+        Place[] placesArray = gson.fromJson(googlePlacesData, Place[].class);
+        for (Place place : placesArray) {
+            if (place.getId().equals(id)) {
+                return place;
+            }
+        }
+        return null;
     }
 
     public void enableFabButton() {

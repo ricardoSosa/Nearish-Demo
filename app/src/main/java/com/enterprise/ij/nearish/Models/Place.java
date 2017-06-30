@@ -7,36 +7,34 @@ import android.graphics.drawable.Drawable;
  */
 
 public class Place {
-    private int id;
+    private String id;
     private String name;
-    private String description;
+    private String vicinity;
+    private String lat;
+    private String lng;
     private float rating;
     private Drawable image;
 
-    Place() {
-
-    }
-
-    public Place(String name, String description, float rating, Drawable image) {
+    public Place(String name, String vicinity, float rating, Drawable image, String lat, String lng) {
         this.name = name;
-        this.description = description;
+        this.vicinity = vicinity;
         this.rating = rating;
         this.image = image;
     }
 
-    public Place(int id, String name, String description, float rating, Drawable image) {
+    public Place(String id, String name, String vicinity, float rating, Drawable image, String lat, String lng) {
         this.id = id;
         this.name = name;
-        this.description = description;
+        this.vicinity = vicinity;
         this.rating = rating;
         this.image = image;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -48,12 +46,12 @@ public class Place {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public String getVicinity() {
+        return vicinity;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void seVicinity(String vicinity) {
+        this.vicinity = vicinity;
     }
 
     public float getRating() {
@@ -70,5 +68,21 @@ public class Place {
 
     public void setImage(Drawable image) {
         this.image = image;
+    }
+
+    public String getLat() {
+        return lat;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public String getLng() {
+        return lng;
+    }
+
+    public void setLng(String lat) {
+        this.lng = lng;
     }
 }

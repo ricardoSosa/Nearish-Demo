@@ -14,17 +14,24 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.enterprise.ij.nearish.Models.Place;
 import com.enterprise.ij.nearish.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 public class PlaceDetailsFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
@@ -33,7 +40,6 @@ public class PlaceDetailsFragment extends Fragment implements GoogleApiClient.Co
     MapView mMapView;
     private GoogleMap mMap;
     GoogleApiClient mGoogleApiClient;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -79,6 +85,18 @@ public class PlaceDetailsFragment extends Fragment implements GoogleApiClient.Co
                     buildGoogleApiClient();
                     mMap.setMyLocationEnabled(true);
                 }
+                Place place = ((PlaceDetails) getParentFragment()).getPlace();
+                Double lat = Double.parseDouble(place.getLat());
+                Double lng = Double.parseDouble(place.getLng());
+                LatLng latLng = new LatLng(lat, lng);
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.position(latLng);
+                markerOptions.title("Current Position");
+                markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA));
+                mMap.addMarker(markerOptions);
+
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
             }
         });
 
