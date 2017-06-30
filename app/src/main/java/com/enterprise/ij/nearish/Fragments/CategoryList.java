@@ -1,8 +1,12 @@
 package com.enterprise.ij.nearish.Fragments;
 
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.enterprise.ij.nearish.Adapters.CategoryAdapter;
@@ -11,26 +15,23 @@ import com.enterprise.ij.nearish.R;
 
 import java.util.ArrayList;
 
-public class CategoryList extends AppCompatActivity {
+public class CategoryList extends Fragment {
 
     ListView categoriesList;
     ArrayList<Category> categories = new ArrayList<>();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_categories_list);
+        View rootView = inflater.inflate(R.layout.activity_categories_list, container, false);
+        categoriesList = (ListView) rootView.findViewById(R.id.categorieList);
 
-        categoriesList = (ListView) findViewById(R.id.categorieList);
+        categories.add(new Category("Comida rápida", ContextCompat.getDrawable(getActivity(),R.drawable.logo)));
 
-        categories.add(new Category("Comida rápida", ContextCompat.getDrawable(this,R.drawable.logo)));
-        categories.add(new Category("Comida china", ContextCompat.getDrawable(this,R.drawable.logo)));
-        categories.add(new Category("Comida mexicana", ContextCompat.getDrawable(this,R.drawable.logo)));
-        categories.add(new Category("Comida india", ContextCompat.getDrawable(this,R.drawable.logo)));
-
-        CategoryAdapter categoryAdapter = new CategoryAdapter(this,categories);
+        CategoryAdapter categoryAdapter = new CategoryAdapter(getActivity(),categories);
 
         categoriesList.setAdapter(categoryAdapter);
 
+        return rootView;
     }
 }

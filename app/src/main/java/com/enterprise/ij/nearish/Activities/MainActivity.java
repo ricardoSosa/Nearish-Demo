@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.enterprise.ij.nearish.Fragments.CategoryList;
 import com.enterprise.ij.nearish.Fragments.MapViewFragment;
 import com.enterprise.ij.nearish.Fragments.PlacesList;
 import com.enterprise.ij.nearish.Other.DownloadUrl;
@@ -37,7 +38,8 @@ public class MainActivity extends AppCompatActivity
     boolean isMapFragment = false;
     String googlePlacesData = "";
     FloatingActionButton fab = null;
-    final String url = "http://35.197.5.57:9000/places/random";
+    final String urlUser = "http://35.197.5.57:9000/places/random";
+    final String url = "http://35.197.5.57:9000/users/594723454362de004b0f3bcb/places/?lat=20.9674&lng=89.5926";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,10 +75,10 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view) {
                 if (isMapFragment){
                     sFm.beginTransaction().replace(R.id.map, placesList).commit();
-                    fab.setEnabled(false);
                     isMapFragment = false;
                 }
                 else {
+                    fab.setEnabled(false);
                     sFm.beginTransaction().replace(R.id.map, sMapFragment).commit();
                     isMapFragment = true;
                 }
@@ -132,8 +134,6 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        FragmentManager fm = getFragmentManager();
-        android.support.v4.app.FragmentManager sFm = getSupportFragmentManager();
 
         int id = item.getItemId();
 
@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity
             sFm.beginTransaction().hide(sMapFragment).commit();
 
         if (id == R.id.nav_categories) {
-            fm.beginTransaction().replace(R.id.content_frame, new ImportFragment()).commit();
+            sFm.beginTransaction().replace(R.id.map, new CategoryList()).commit();
         }
         //else if (id == R.id.nav_gallery) {
 
