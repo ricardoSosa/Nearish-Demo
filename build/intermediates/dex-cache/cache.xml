@@ -3,6 +3,96 @@
 
     <item
         is-multidex="true"
+        jar="C:\Users\RIKI\.gradle\caches\modules-2\files-2.1\com.github.bumptech.glide\glide\4.0.0-RC1\7baec7d5132e7343100a99630a56a6584a33addc\glide-4.0.0-RC1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="7baec7d5132e7343100a99630a56a6584a33addc">
+        <dex dex="C:\Users\RIKI\Documents\cursos\Android\nearish\app\build\intermediates\transforms\dex\debug\folders\1000\10\glide-4.0.0-RC1_ccae4d5e01ccda71589f7af204592e179f0621bb\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\RIKI\Documents\cursos\Android\nearish\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="db19c22c02766f35985e1416a762063edee053b9">
+        <dex dex="C:\Users\RIKI\Documents\cursos\Android\nearish\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_35ac2a0f96b4a2d62cab5a2896175c32bc032b48\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\RIKI\.android\build-cache\285c800f14e6a9de602a4017b960c8eb3c0407e4\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="4a26a1154d053ab11aaf4c3967c42a4d66390991">
+        <dex dex="C:\Users\RIKI\Documents\cursos\Android\nearish\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_7bdd77f5e8e5caf8843ac00be1dac720fd6df700\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\RIKI\.android\build-cache\bf64727a80c74226314fa23d395f238cc8605366\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="C:\Users\RIKI\Documents\cursos\Android\nearish\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_6f1cbedde41dc99c7252655fb5c6353ecaa7d892\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\RIKI\.android\build-cache\cdd27e94c4b1c9ce51710502e2086f8a57343f77\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="052f5f840f21174a3ecf6544130194e2652cbb73">
+        <dex dex="C:\Users\RIKI\Documents\cursos\Android\nearish\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_8364f76b5e42197e93e4eecfb70e5e51d450f921\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\RIKI\.gradle\caches\modules-2\files-2.1\com.github.bumptech.glide\annotations\4.0.0-RC1\84c524dcd1a3088edd5560a8ac176eae1317f770\annotations-4.0.0-RC1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="84c524dcd1a3088edd5560a8ac176eae1317f770">
+        <dex dex="C:\Users\RIKI\Documents\cursos\Android\nearish\app\build\intermediates\transforms\dex\debug\folders\1000\10\annotations-4.0.0-RC1_4a56898a6c36b395be8fef93271fb8044c486e93\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\RIKI\.gradle\caches\modules-2\files-2.1\com.github.bumptech.glide\disklrucache\4.0.0-RC1\1b4bba8f8d3df8db064c875c043c01e9ca3cdee9\disklrucache-4.0.0-RC1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="1b4bba8f8d3df8db064c875c043c01e9ca3cdee9">
+        <dex dex="C:\Users\RIKI\Documents\cursos\Android\nearish\app\build\intermediates\transforms\dex\debug\folders\1000\10\disklrucache-4.0.0-RC1_02841473f6564d82636f1e6c3ee388ef9b2def23\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\RIKI\.android\build-cache\b1674ca38ee2649721d7fb674d95ae3d67bd5cd0\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="da27a32db6af8954ee8061537c7d476fcb1df46f">
+        <dex dex="C:\Users\RIKI\Documents\cursos\Android\nearish\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_e35012e21d8875548cce8cdf8143c02a6ce5f972\classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\RIKI\Documents\cursos\Android\nearish\app\libs\gson-2.8.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.0"
+        sha1="02a8e0aa38a2e21cb39e2f5a7d6704cbdc941da0">
+        <dex dex="C:\Users\RIKI\Documents\cursos\Android\nearish\app\build\intermediates\pre-dexed\debug\gson-2.8.1_798f6f0fc7331ebc3993cf98ba268d853c456450.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\RIKI\Documents\cursos\Android\nearish\app\libs\gson-2.8.1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="02a8e0aa38a2e21cb39e2f5a7d6704cbdc941da0">
+        <dex dex="C:\Users\RIKI\Documents\cursos\Android\nearish\app\build\intermediates\transforms\dex\debug\folders\1000\2\gson-2.8.1_798f6f0fc7331ebc3993cf98ba268d853c456450\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="C:\Users\RIKI\Documents\cursos\Android\nearish\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
         jumboMode="true"
         optimize="true"
@@ -12,12 +102,30 @@
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\RIKI\Documents\cursos\Android\nearish\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jar="C:\Users\RIKI\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\25.3.1\support-annotations-25.3.1.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="e3bf029f3e55b435e79ec3868ce984c2ef4c1b58">
-        <dex dex="C:\Users\RIKI\Documents\cursos\Android\nearish\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_35ac2a0f96b4a2d62cab5a2896175c32bc032b48\classes.dex" />
+        sha1="bf8841d29fa39e077730e7a91222c2ce269fa7c9">
+        <dex dex="C:\Users\RIKI\Documents\cursos\Android\nearish\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-25.3.1_cb701a61b44bc677e3ada8548f7fdfba31fa6768\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\RIKI\.android\build-cache\183d1852f48021c94dbb0d2b22f844924f03114c\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="6ef31f1555bb4cc513ec8d52711365a8b89f3600">
+        <dex dex="C:\Users\RIKI\Documents\cursos\Android\nearish\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_8f5f04443bc441cbfe934dead3a6668a45e3de33\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\RIKI\.android\build-cache\c839e2ca758c76e2a4931c634ce2c4b7079fcea9\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="45f697922e6f072daa12f8a2995dc77ab03c11da">
+        <dex dex="C:\Users\RIKI\Documents\cursos\Android\nearish\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_796c525844d294556015b60b48e37a3b9938b1aa\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -30,15 +138,6 @@
     </item>
     <item
         is-multidex="false"
-        jar="C:\Users\RIKI\Documents\cursos\Android\nearish\app\libs\gson-2.8.1.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.0"
-        sha1="02a8e0aa38a2e21cb39e2f5a7d6704cbdc941da0">
-        <dex dex="C:\Users\RIKI\Documents\cursos\Android\nearish\app\build\intermediates\pre-dexed\debug\gson-2.8.1_798f6f0fc7331ebc3993cf98ba268d853c456450.jar" />
-    </item>
-    <item
-        is-multidex="false"
         jar="C:\Users\RIKI\Documents\cursos\Android\nearish\app\libs\json-simple-1.1.jar"
         jumboMode="false"
         optimize="true"
@@ -48,12 +147,12 @@
     </item>
     <item
         is-multidex="true"
-        jar="C:\Users\RIKI\Documents\cursos\Android\nearish\app\libs\gson-2.8.1.jar"
+        jar="C:\Users\RIKI\.gradle\caches\modules-2\files-2.1\com.github.bumptech.glide\gifdecoder\4.0.0-RC1\c425e31eda1069f978a0e823ad50e567ab422656\gifdecoder-4.0.0-RC1.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="02a8e0aa38a2e21cb39e2f5a7d6704cbdc941da0">
-        <dex dex="C:\Users\RIKI\Documents\cursos\Android\nearish\app\build\intermediates\transforms\dex\debug\folders\1000\2\gson-2.8.1_798f6f0fc7331ebc3993cf98ba268d853c456450\classes.dex" />
+        sha1="c425e31eda1069f978a0e823ad50e567ab422656">
+        <dex dex="C:\Users\RIKI\Documents\cursos\Android\nearish\app\build\intermediates\transforms\dex\debug\folders\1000\10\gifdecoder-4.0.0-RC1_6ff598c5d9bc37a05cc9673633e4dc98e9b975ad\classes.dex" />
     </item>
 
 </items>

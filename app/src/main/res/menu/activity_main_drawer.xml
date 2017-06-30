@@ -2,6 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group android:checkableBehavior="single">
+        <item android:id="@+id/nav_recommended_list" android:icon="@android:drawable/ic_menu_agenda"
+            android:title="Recommended list" />
         <item android:id="@+id/nav_categories" android:icon="@android:drawable/ic_menu_agenda"
             android:title="Categories" />
     </group>

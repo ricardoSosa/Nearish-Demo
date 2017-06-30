@@ -2,9 +2,11 @@ package com.enterprise.ij.nearish.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +15,14 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
+import com.bumptech.glide.Glide;
 import com.enterprise.ij.nearish.Models.Place;
 import com.enterprise.ij.nearish.R;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -70,6 +77,14 @@ public class PlacesAdapter extends BaseAdapter {
 
         v.setTag((String) dir.getId());
 
+        ImageView placeImage = (ImageView) v.findViewById(R.id.placeImage);
+        String serverUrl = "https://maps.googleapis.com/maps/api/place/photo?";
+        String maxWidthStr = "maxwidth=400";
+        String refStr = "&photoreference=" + dir.getPhotoReference();
+        String keyStr = "&key=AIzaSyDGr1kwH8fKtTpdkMcAIah5kkayMWJdY8U";
+        String url = serverUrl + maxWidthStr + refStr + keyStr;
+        Glide.with(v.getContext()).load(url).into(placeImage);
+
         TextView placeName = (TextView) v.findViewById(R.id.placeName);
         placeName.setText(dir.getName());
 
@@ -83,9 +98,6 @@ public class PlacesAdapter extends BaseAdapter {
         final int GOLD = ContextCompat.getColor(v.getContext(), R.color.Gold);
         LayerDrawable stars = (LayerDrawable) placeRating.getProgressDrawable();
         stars.getDrawable(2).setColorFilter(GOLD, PorterDuff.Mode.SRC_ATOP);
-
-        ImageView imagen = (ImageView) v.findViewById(R.id.placeImage);
-        imagen.setImageDrawable(dir.getImage());
 
         return v;
     }

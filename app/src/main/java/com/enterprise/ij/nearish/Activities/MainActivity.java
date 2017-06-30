@@ -35,20 +35,22 @@ import java.util.concurrent.ExecutionException;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
 
-    MapViewFragment sMapFragment;
     PlacesList placesList;
+    MapViewFragment sMapFragment;
+    CategoryList categoryList;
     android.support.v4.app.FragmentManager sFm;
     boolean isMapFragment = false;
     String googlePlacesData = "";
     FloatingActionButton fab = null;
-    final String urlUser = "http://35.197.5.57:9000/places/random";
-    final String url = "http://35.197.5.57:9000/users/594723454362de004b0f3bcb/places/?lat=20.9674&lng=89.5926";
+    final String url = "http://35.197.5.57:9000/places/random";
+    final String urlUser = "http://35.197.5.57:9000/users/594723454362de004b0f3bcb/places/?lat=20.9674&lng=89.5926";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         sMapFragment = new MapViewFragment();
+        categoryList = new CategoryList();
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -143,9 +145,18 @@ public class MainActivity extends AppCompatActivity
         if (sMapFragment.isAdded())
             sFm.beginTransaction().hide(sMapFragment).commit();
 
-        if (id == R.id.nav_categories) {
-            sFm.beginTransaction().replace(R.id.map, new CategoryList()).commit();
+        if (id == R.id.nav_recommended_list) {
+            if(!placesList.isAdded()){
+                sFm.beginTransaction().replace(R.id.map, placesList).commit();
+            }
         }
+
+        if (id == R.id.nav_categories) {
+            if(!categoryList.isAdded()) {
+                sFm.beginTransaction().replace(R.id.map, categoryList).commit();
+            }
+        }
+
         //else if (id == R.id.nav_gallery) {
 
          //   if (!sMapFragment.isAdded())
