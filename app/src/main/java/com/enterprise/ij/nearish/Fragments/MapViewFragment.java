@@ -109,7 +109,7 @@ public class MapViewFragment extends Fragment implements GoogleApiClient.Connect
                     buildGoogleApiClient();
                     mMap.setMyLocationEnabled(true);
                 }
-                Toast.makeText(getActivity(),"Recommending places", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(),"Recommending places...", Toast.LENGTH_LONG).show();
             }
         });
 

@@ -26,8 +26,12 @@
         android:layout_marginBottom="25dp"
         />
 
-    <ListView
-        android:id="@android:id/list"
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <GridView
+        android:id="@+id/likablePlacesList"
         android:layout_width="match_parent"
         android:numColumns="2"
         android:layout_height="wrap_content"
@@ -36,6 +40,16 @@
         android:dividerHeight="5dp"
         >
 
-    </ListView>
+    </GridView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@android:drawable/ic_menu_save" />
+
+    </FrameLayout>
 
 </LinearLayout>
