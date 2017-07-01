@@ -83,7 +83,6 @@ public class PlaceDetails extends Fragment {
         LayerDrawable stars = (LayerDrawable) ratingBar.getProgressDrawable();
         stars.getDrawable(2).setColorFilter(GOLD, PorterDuff.Mode.SRC_ATOP);
 
-
         LayerDrawable starsPlace = (LayerDrawable) placeRatingBar.getProgressDrawable();
         starsPlace.getDrawable(2).setColorFilter(GOLD, PorterDuff.Mode.SRC_ATOP);
 

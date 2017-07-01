@@ -42,14 +42,13 @@ public class PlacesList extends ListFragment {
 
         googlePlacesData = ((MainActivity) getActivity()).getGooglePlacesData();
         Gson gson = new Gson();
-        //DataParser dataParser = new DataParser();
-        //List<HashMap<String, String>> list = dataParser.parse(googlePlacesData);
         Place[] placesArray = gson.fromJson(googlePlacesData, Place[].class);
         Collections.addAll(places, placesArray);
 
         PlacesAdapter adapter = new PlacesAdapter(getActivity(),places);
         placesList.setAdapter(adapter);
         sFm = getActivity().getSupportFragmentManager();
+        ((MainActivity) getActivity()).enableFabButton();
 
         return rootView;
     }

@@ -3,23 +3,22 @@ package com.enterprise.ij.nearish.Activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
-
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,8 +28,14 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.enterprise.ij.nearish.Models.Usuario;
+import com.enterprise.ij.nearish.Other.ServiceHandler;
 import com.enterprise.ij.nearish.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,13 +53,6 @@ public class SignInActivity extends AppCompatActivity implements LoaderCallbacks
     private static final int REQUEST_READ_CONTACTS = 0;
 
     /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
-    /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private UserLoginTask mAuthTask = null;
@@ -70,6 +68,7 @@ public class SignInActivity extends AppCompatActivity implements LoaderCallbacks
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+        checkSession();
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
@@ -87,28 +86,39 @@ public class SignInActivity extends AppCompatActivity implements LoaderCallbacks
         });
 
         signUpLink = (TextView) findViewById(R.id.link_signup);
-        signUpLink.setOnClickListener(new View.OnClickListener() {
+        signUpLink.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 // Start the Signup activity
                 Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
                 startActivity(intent);
-                finish();
             }
         });
+
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                //attemptLogin();
-                Intent intent = new Intent(SignInActivity.this, MainActivity.class);
-                startActivity(intent);
-
+                attemptLogin();
             }
         });
+
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+    }
+
+    private void checkSession() {
+        if(Usuario.getUserInstance().getToken()!=null){
+            if(Usuario.getUserInstance().isFirstTime()){
+                Intent intent = new Intent(this, GettingToKnowYou.class);
+                startActivity(intent);
+            }else{
+             /**
+              * Aquí va la llamada a la Activity principal
+              * **/
+            }
+        }
     }
 
     private void populateAutoComplete() {
@@ -119,19 +129,33 @@ public class SignInActivity extends AppCompatActivity implements LoaderCallbacks
         getLoaderManager().initLoader(0, null, this);
     }
 
+    //==============================================================================================
+    //                  SOLICITAR EL PERMISO PARA LEER LOS CONTACTOS DEL USUARIO
+    //==============================================================================================
+    //----------------------------------------------------------------------------------------------
+    //Metodo para comprobar y solicitar los permisos
     private boolean mayRequestContacts() {
+        /**Analiza si la versión de SDK del dispositivo sobre el cual esta corriendo
+         la aplicación es menor a la versión Mashmallow */
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             return true;
         }
+        /**Comprueba si el permiso para leer contactos se ha concedido con anterioridad */
         if (checkSelfPermission(READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
             return true;
         }
+        /**Si un usuario previamente a denegado el permiso y aun asi sigue intentando entrar en la
+         funcionalidad, por lo que es conveniete informarle las razones del permiso. */
         if (shouldShowRequestPermissionRationale(READ_CONTACTS)) {
+            /**Generar una notificación para informarle al usuario el porque de la solicitud del
+             permiso, acompañado de un boton para conceder los permisos a la aplicación. */
             Snackbar.make(mEmailView, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
-                    .setAction(android.R.string.ok, new View.OnClickListener() {
+                    .setAction(android.R.string.ok, new OnClickListener() {
                         @Override
                         @TargetApi(Build.VERSION_CODES.M)
                         public void onClick(View v) {
+                            /**Solicita que se le otorguen permisos a esta aplicación solo hizo
+                             click sobre el boton OK del Snackbar. */
                             requestPermissions(new String[]{READ_CONTACTS}, REQUEST_READ_CONTACTS);
                         }
                     });
@@ -140,6 +164,15 @@ public class SignInActivity extends AppCompatActivity implements LoaderCallbacks
         }
         return false;
     }
+
+    //Metodo que se invoca cada vez que se solicitan permisos
+
+    /**
+     * Recibe como parametros
+     * El codigo de la solicitud aprobada.
+     * Los permisos solicitados.
+     * los resultados para los permisos correspondientes.
+     */
 
     /**
      * Callback received when a permissions request has been completed.
@@ -155,12 +188,17 @@ public class SignInActivity extends AppCompatActivity implements LoaderCallbacks
     }
 
 
+    //==============================================================================================
+    //                  VALIDAR LOS COMPONENTES DEL FORMULARIO DE INGRESO
+    //==============================================================================================
+
     /**
      * Attempts to sign in or register the account specified by the login form.
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
     private void attemptLogin() {
+        /**Comprobar si el objeto para el usuario esta vacio o no*/
         if (mAuthTask != null) {
             return;
         }
@@ -173,6 +211,10 @@ public class SignInActivity extends AppCompatActivity implements LoaderCallbacks
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
 
+        /**
+         * Bandera evidenciar algun error durante la validación de los datos
+         * Variable para contener el campo a ser enfocado
+         */
         boolean cancel = false;
         View focusView = null;
 
@@ -194,6 +236,7 @@ public class SignInActivity extends AppCompatActivity implements LoaderCallbacks
             cancel = true;
         }
 
+        /**Comprobar si hubo un fallo durante el ingreso de datos*/
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
@@ -209,12 +252,14 @@ public class SignInActivity extends AppCompatActivity implements LoaderCallbacks
 
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
-        return email.contains("@");
+        //return email.contains("a");
+        return true;
     }
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
-        return password.length() > 4;
+        //return password.length() > 4;
+        return true;
     }
 
     /**
@@ -253,9 +298,18 @@ public class SignInActivity extends AppCompatActivity implements LoaderCallbacks
         }
     }
 
+    //==============================================================================================
+    //      CREAR LA LISTA DE EMAILS PROVENIENTES DEL PERFIL DE USUARIO PARA EL AUTOCOMPLETADO
+    //==============================================================================================
+    //----------------------------------------------------------------------------------------------
+    //Consultar Asincronicamente el o los emails almacenados en el perfil del usuario
+
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        /**Obtener y Retornar un Cursor que apunta a una tabla con los datos especificados  en la
+         * consulta*/
         return new CursorLoader(this,
+                /**Creamos un filtro para que la consulta se centre solo en los emails*/
                 // Retrieve data rows for the device user's 'profile' contact.
                 Uri.withAppendedPath(ContactsContract.Profile.CONTENT_URI,
                         ContactsContract.Contacts.Data.CONTENT_DIRECTORY), ProfileQuery.PROJECTION,
@@ -270,15 +324,19 @@ public class SignInActivity extends AppCompatActivity implements LoaderCallbacks
                 ContactsContract.Contacts.Data.IS_PRIMARY + " DESC");
     }
 
+    //Mover los correos Obtenidos en la anterior consulta a través del Cursor retornado
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
         List<String> emails = new ArrayList<>();
         cursor.moveToFirst();
+        /**Mientras el Cursor no termine de recorrer las Filas de Tabla, adicione las direcciones
+         * de correo a la lista*/
         while (!cursor.isAfterLast()) {
             emails.add(cursor.getString(ProfileQuery.ADDRESS));
             cursor.moveToNext();
         }
 
+        /**Enviar la lista de Emails para el Autocompletado*/
         addEmailsToAutoComplete(emails);
     }
 
@@ -287,7 +345,10 @@ public class SignInActivity extends AppCompatActivity implements LoaderCallbacks
 
     }
 
+    //Adicionar la lista de terminos al TextView de tipo Autocomplete
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
+        /**Crear un adaptador que permitira adaptar los datos de la la lista al AutoCompleteTextView
+         * utilizando una lista dropdown*/
         //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
         ArrayAdapter<String> adapter =
                 new ArrayAdapter<>(SignInActivity.this,
@@ -296,7 +357,7 @@ public class SignInActivity extends AppCompatActivity implements LoaderCallbacks
         mEmailView.setAdapter(adapter);
     }
 
-
+    //Definen los campos seleccionados para la consulta
     private interface ProfileQuery {
         String[] PROJECTION = {
                 ContactsContract.CommonDataKinds.Email.ADDRESS,
@@ -307,6 +368,11 @@ public class SignInActivity extends AppCompatActivity implements LoaderCallbacks
         int IS_PRIMARY = 1;
     }
 
+    //==============================================================================================
+    //  CLASE PARA ALMACENAR LOS USUARIOS Y METODOS ASICRONOS PARA VALIDAR EL USUARIO INGRESADO
+    //==============================================================================================
+    //----------------------------------------------------------------------------------------------
+    //Clase para Almacenar los Usuarios
     /**
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
@@ -315,33 +381,57 @@ public class SignInActivity extends AppCompatActivity implements LoaderCallbacks
 
         private final String mEmail;
         private final String mPassword;
+        private Usuario user;
 
         UserLoginTask(String email, String password) {
             mEmail = email;
             mPassword = password;
         }
 
+        //------------------------------------------------------------------------------------------
+        //Hilo para validar si el Correo y contraseña ingresados son correctos
+
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
 
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
+            // Simulate network access.
+            //Thread.sleep(2000);
+            ServiceHandler serviceHandler = new ServiceHandler();
+            String answer = serviceHandler.executePostAuth(mEmail,mPassword);
+
+            if(answer.contains("false")||answer.contains("MalformedURLException")||answer.isEmpty()){
                 return false;
+            }else if(answer.contains("Connection error")){
+                return null;
+            }
+            else{
+                JSONArray JSONanswer = null;
+                try {
+                    JSONanswer = new JSONArray(answer);
+
+                    user = Usuario.getUserInstance();
+                    user.setToken(JSONanswer.getJSONObject(0).getString("id"));
+                    System.out.println(Usuario.getUserInstance());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return true;
             }
 
-            for (String credential : DUMMY_CREDENTIALS) {
+            /**Ciclo en el cual se comparan los Emails y Contraseñas alamacenados en el Array tipo
+             * string definido al inicio del activity y el email y clave ingresados por el usuario
+             * en el formulario de Login*/
+            /*for (String credential : DUMMY_CREDENTIALS) {
                 String[] pieces = credential.split(":");
                 if (pieces[0].equals(mEmail)) {
                     // Account exists, return true if the password matches.
                     return pieces[1].equals(mPassword);
                 }
-            }
+            }*/
 
             // TODO: register the new account here.
-            return true;
+
         }
 
         @Override
@@ -349,12 +439,28 @@ public class SignInActivity extends AppCompatActivity implements LoaderCallbacks
             mAuthTask = null;
             showProgress(false);
 
-            if (success) {
-                finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+            if(success!=null){
+                if (success) {
+                    Toast toast = Toast.makeText(getApplicationContext(),"Welcome "+Usuario.getUserInstance().getname(),Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+                    toast.show();
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    intent.putExtra("id", user.getToken());
+                    intent.putExtra("email", user.getemail());
+                    startActivity(intent);
+                } else {
+                    Toast toast = Toast.makeText(getApplicationContext(),"Wrong email or password ",Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+                    toast.show();
+                    mEmailView.requestFocus();
+                }
+            }else {
+                    Toast toast = Toast.makeText(getApplicationContext(),"Connection to the server refused",Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+                    toast.show();
+                mEmailView.requestFocus();
             }
+
         }
 
         @Override

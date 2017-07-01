@@ -1,6 +1,8 @@
 package com.enterprise.ij.nearish.Activities;
 
 import android.app.FragmentManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -20,14 +22,18 @@ import com.enterprise.ij.nearish.Fragments.MapViewFragment;
 import com.enterprise.ij.nearish.Fragments.PlaceDetails;
 import com.enterprise.ij.nearish.Fragments.PlacesList;
 import com.enterprise.ij.nearish.Models.Place;
+import com.enterprise.ij.nearish.Models.Usuario;
 import com.enterprise.ij.nearish.Other.DownloadUrl;
 import com.enterprise.ij.nearish.Other.GetNearbyPlacesData;
 import com.enterprise.ij.nearish.R;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 
 import com.enterprise.ij.nearish.Fragments.ImportFragment;
 import com.enterprise.ij.nearish.Fragments.MainFragment;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.gson.Gson;
 
 import java.util.concurrent.ExecutionException;
@@ -42,8 +48,11 @@ public class MainActivity extends AppCompatActivity
     boolean isMapFragment = false;
     String googlePlacesData = "";
     FloatingActionButton fab = null;
-    final String url = "http://35.197.5.57:9000/places/random";
-    final String urlUser = "http://35.197.5.57:9000/users/594723454362de004b0f3bcb/places/?lat=20.9674&lng=89.5926";
+    final String serverUrl = "http://35.197.5.57:9000/users/594723454362de004b0f3bcb/places/?";
+    String latStr = "lat=";
+    String lngStr = "&lng=";
+    String url = "";
+    Usuario user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,34 +65,34 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Object[] DataTransfer = new Object[1];
-        DataTransfer[0] = url;
-        GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
-        try {
-            googlePlacesData = getNearbyPlacesData.execute(DataTransfer).get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
+        String id = getIntent().getStringExtra("id");
+        String email = getIntent().getStringExtra("email");
+        String[] emailParts = email.split("@");
+        String name = emailParts[0];
+
+        user = new Usuario();
+        user.setToken(id);
+        user.setemail(email);
+        user.setname(name);
 
         sFm = getSupportFragmentManager();
         placesList = new PlacesList();
         if (!placesList.isAdded())
-            sFm.beginTransaction().add(R.id.map, placesList).commit();
+            sFm.beginTransaction().add(R.id.map, sMapFragment).commit();
         else
-            sFm.beginTransaction().show(placesList).commit();
+            sFm.beginTransaction().show(sMapFragment).commit();
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setEnabled(false);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (isMapFragment){
+                    fab.setEnabled(false);
                     sFm.beginTransaction().replace(R.id.map, placesList).commit();
                     isMapFragment = false;
                 }
                 else {
-                    fab.setEnabled(false);
                     sFm.beginTransaction().replace(R.id.map, sMapFragment).addToBackStack(null).commit();
                     isMapFragment = true;
                 }
@@ -202,7 +211,29 @@ public class MainActivity extends AppCompatActivity
         return null;
     }
 
+    public void obtainGooglePlaces() {
+        Object[] dataTransfer = new Object[1];
+        url = serverUrl + latStr + lngStr;
+        dataTransfer[0] = url;
+        GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
+        try {
+            googlePlacesData = getNearbyPlacesData.execute(dataTransfer).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void enableFabButton() {
         fab.setEnabled(true);
+    }
+
+    public void setLatStr(Double lat) {
+        this.latStr = "lat=" + lat;
+    }
+
+    public void setLngStr(Double lng) {
+        this.lngStr = "&lng=" + lng;
     }
 }

@@ -109,10 +109,7 @@ public class MapViewFragment extends Fragment implements GoogleApiClient.Connect
                     buildGoogleApiClient();
                     mMap.setMyLocationEnabled(true);
                 }
-
-                List<HashMap<String, String>> nearbyPlacesList = getPlacesList();
-                ShowNearbyPlaces(nearbyPlacesList);
-                ((MainActivity) getActivity()).enableFabButton();
+                Toast.makeText(getActivity(),"Recommending places", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -248,6 +245,13 @@ public class MapViewFragment extends Fragment implements GoogleApiClient.Connect
         //Place current location marker
         latitude = location.getLatitude();
         longitude = location.getLongitude();
+        ((MainActivity) getActivity()).setLatStr(latitude);
+        ((MainActivity) getActivity()).setLngStr(longitude);
+        ((MainActivity) getActivity()).obtainGooglePlaces();
+        List<HashMap<String, String>> nearbyPlacesList = getPlacesList();
+        ShowNearbyPlaces(nearbyPlacesList);
+        ((MainActivity) getActivity()).enableFabButton();
+
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
@@ -259,6 +263,7 @@ public class MapViewFragment extends Fragment implements GoogleApiClient.Connect
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(11));
         Toast.makeText(getActivity(),"Your Current Location", Toast.LENGTH_LONG).show();
+
 
         Log.d("onLocationChanged", String.format("latitude:%.3f longitude:%.3f",latitude,longitude));
 
