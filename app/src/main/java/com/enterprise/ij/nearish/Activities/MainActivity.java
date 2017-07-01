@@ -48,7 +48,8 @@ public class MainActivity extends AppCompatActivity
     boolean isMapFragment = false;
     String googlePlacesData = "";
     FloatingActionButton fab = null;
-    final String serverUrl = "http://35.197.5.57:9000/users/594723454362de004b0f3bcb/places/?";
+    final String serverUrl = "http://35.197.5.57:9000/users/";
+    String rootStr = "/places/?";
     String latStr = "lat=";
     String lngStr = "&lng=";
     String url = "";
@@ -74,6 +75,7 @@ public class MainActivity extends AppCompatActivity
         user.setToken(id);
         user.setemail(email);
         user.setname(name);
+        rootStr = id + rootStr;
 
         sFm = getSupportFragmentManager();
         placesList = new PlacesList();
@@ -213,7 +215,7 @@ public class MainActivity extends AppCompatActivity
 
     public void obtainGooglePlaces() {
         Object[] dataTransfer = new Object[1];
-        url = serverUrl + latStr + lngStr;
+        url = serverUrl + rootStr + latStr + lngStr;
         dataTransfer[0] = url;
         GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
         try {

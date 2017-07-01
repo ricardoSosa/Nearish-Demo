@@ -168,7 +168,7 @@ public class MapViewFragment extends Fragment implements GoogleApiClient.Connect
                     break;
 
                 case "cafe":
-                    icon = R.drawable.orange_marker;
+                    icon = R.drawable.blue_marker;
                     break;
 
                 case "bar":
@@ -176,7 +176,7 @@ public class MapViewFragment extends Fragment implements GoogleApiClient.Connect
                     break;
 
                 case "bakery":
-                    icon = R.drawable.red_marker;
+                    icon = R.drawable.green_marker;
                     break;
 
                 case "casino":
@@ -196,11 +196,11 @@ public class MapViewFragment extends Fragment implements GoogleApiClient.Connect
                     break;
 
                 case "meal_takeaway":
-                    icon = R.drawable.red_marker;
+                    icon = R.drawable.green_marker;
                     break;
 
                 case "store":
-                    icon = R.drawable.blue_marker;
+                    icon = R.drawable.green_marker;
                     break;
 
                 case "night_club":

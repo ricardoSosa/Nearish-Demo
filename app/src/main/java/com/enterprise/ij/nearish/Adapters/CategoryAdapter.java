@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.enterprise.ij.nearish.Models.Category;
 import com.enterprise.ij.nearish.R;
@@ -64,7 +66,13 @@ public class CategoryAdapter extends BaseAdapter {
         Category dir = categories.get(position);
 
         ImageView imagen = (ImageView) v.findViewById(R.id.categoryImage);
-        imagen.setImageDrawable(dir.getImage());
+        imagen.setImageResource(dir.getImage());
+
+        TextView name = (TextView) v.findViewById(R.id.categoryName);
+        name.setText(dir.getName());
+
+        ToggleButton favButton = (ToggleButton) v.findViewById(R.id.favButton);
+        
 
         return v;
     }

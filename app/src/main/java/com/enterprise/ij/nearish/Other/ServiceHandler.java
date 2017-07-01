@@ -3,6 +3,7 @@ package com.enterprise.ij.nearish.Other;
 import android.util.Base64;
 import android.util.Log;
 
+import com.enterprise.ij.nearish.Models.Category;
 import com.enterprise.ij.nearish.Models.Rating;
 import com.enterprise.ij.nearish.Models.UserLikablePlace;
 import com.enterprise.ij.nearish.Models.Usuario;
@@ -27,6 +28,7 @@ public class ServiceHandler {
     private static final String targetSignUpURL = "http://35.197.5.57:9000/users/";
     private static final String targetLikablePlacesURL = "http://35.197.5.57:9000/ratedplaces/";
     private static final String targetRated = "http://35.197.5.57:9000/ratedplaces/";
+    private static final String targetCategory = "http://35.197.5.57:9000/users/";
     final String user = "admin";
     final String pass = "password123";
 
@@ -222,6 +224,64 @@ public class ServiceHandler {
     }
 
     public String executePostRating(String userID, String placeID, String rating){
+        Rating rat = new Rating(placeID,userID,rating);
+        StringBuffer response = new StringBuffer();
+        Gson gson= new Gson();
+        String rat_json = gson.toJson(rat);
+
+        HttpURLConnection httpConnection = null;
+        try{
+            //Criando a conexão
+            URL tagetUrl = new URL(targetRated);
+            httpConnection = (HttpURLConnection) tagetUrl.openConnection();
+
+            httpConnection.setDoOutput(true);
+            httpConnection.setRequestMethod("POST");
+            httpConnection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            String credentials = user + ":" + pass;
+            String credBase64 = Base64.encodeToString(credentials.getBytes(), Base64.DEFAULT).replace("\n", "");
+            httpConnection.setRequestProperty("Authorization", "Basic "+credBase64);
+            httpConnection.connect();
+
+
+            //Enviando Request
+            OutputStream outputStream = httpConnection.getOutputStream();
+            outputStream.write(rat_json.getBytes());
+            outputStream.flush();
+
+            if (httpConnection.getResponseCode() != 201){
+                return ("Failed : HTTP error code : " + httpConnection.getResponseCode());
+            }
+
+            //Recebendo Response
+            InputStream is = httpConnection.getInputStream();
+            BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+
+            String line;
+            while((line = rd.readLine()) != null) {
+                response.append(line);
+                response.append('\r');
+            }
+
+            rd.close();
+            return response.toString();
+
+        }catch (MalformedURLException e) {
+            e.printStackTrace();
+            return "MalformedURLException";
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ""+httpConnection.getErrorStream ();
+        } finally {
+
+            if(httpConnection != null) {
+                httpConnection.disconnect();
+            }
+        }
+    }
+
+    public String executePatchCategories(String userID, String placeID, String rating){
         Rating rat = new Rating(placeID,userID,rating);
         StringBuffer response = new StringBuffer();
         Gson gson= new Gson();

@@ -26,7 +26,11 @@ public class CategoryList extends Fragment {
         View rootView = inflater.inflate(R.layout.activity_categories_list, container, false);
         categoriesList = (ListView) rootView.findViewById(R.id.categorieList);
 
-        categories.add(new Category("Comida rápida", ContextCompat.getDrawable(getActivity(),R.drawable.logo)));
+        categories.add(new Category("594c368633cbb6eed6f364da", "Restaurant", R.drawable.red_marker));
+        categories.add(new Category("594c4a504362de3d8fae464f", "Cafe",R.drawable.blue_marker));
+        categories.add(new Category("5956fe667d2bf938c292e0b8", "Bakery",R.drawable.green_marker));
+        categories.add(new Category("5956fefa7d2bf938c292e0bd", "Bar",R.drawable.orange_marker));
+        categories.add(new Category("5956fec37d2bf938c292e0ba", "Night club",R.drawable.black_marker));
 
         CategoryAdapter categoryAdapter = new CategoryAdapter(getActivity(),categories);
 

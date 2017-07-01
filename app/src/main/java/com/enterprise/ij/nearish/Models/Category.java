@@ -7,26 +7,26 @@ import android.graphics.drawable.Drawable;
  */
 
 public class Category {
-    private int id;
+    private String id;
     private String name;
-    private Drawable image;
+    private int image;
 
-    public Category(String name, Drawable image) {
+    public Category(String name, int image) {
         this.name = name;
         this.image = image;
     }
 
-    public Category(int id, String name, Drawable image) {
+    public Category(String id, String name, int image) {
         this.id = id;
         this.name = name;
         this.image = image;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -38,11 +38,11 @@ public class Category {
         this.name = name;
     }
 
-    public Drawable getImage() {
+    public int getImage() {
         return image;
     }
 
-    public void setImage(Drawable image) {
+    public void setImage(int image) {
         this.image = image;
     }
 }
