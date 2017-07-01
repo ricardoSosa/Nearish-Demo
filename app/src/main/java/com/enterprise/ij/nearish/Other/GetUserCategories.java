@@ -9,13 +9,14 @@ import android.util.Log;
 
 public class GetUserCategories extends AsyncTask<Object, String, String> {
 
-    String url;
+    String url = "http://35.197.5.57:9000/users/";
 
     @Override
     protected String doInBackground(Object[] params) {
         String userCategories = "";
         try {
-            url = (String) params[0];
+            String userId = (String) params[0];
+            url = url + userId + "/categories";
             DownloadUrl downloadUrl = new DownloadUrl();
             userCategories = downloadUrl.readUrl(url);
             Log.d("doInBackGround", userCategories);

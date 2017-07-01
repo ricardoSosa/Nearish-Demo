@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.enterprise.ij.nearish.Models.Category;
 import com.enterprise.ij.nearish.Models.Rating;
+import com.enterprise.ij.nearish.Models.UserCategories;
 import com.enterprise.ij.nearish.Models.UserLikablePlace;
 import com.enterprise.ij.nearish.Models.Usuario;
 import com.google.gson.Gson;
@@ -281,8 +282,8 @@ public class ServiceHandler {
         }
     }
 
-    public String executePatchCategories(String userID, String placeID, String rating){
-        Rating rat = new Rating(placeID,userID,rating);
+    public String executePatchCategories(String userID, String[] types){
+        UserCategories rat = new UserCategories(types);
         StringBuffer response = new StringBuffer();
         Gson gson= new Gson();
         String rat_json = gson.toJson(rat);
@@ -290,11 +291,11 @@ public class ServiceHandler {
         HttpURLConnection httpConnection = null;
         try{
             //Criando a conexão
-            URL tagetUrl = new URL(targetRated);
+            URL tagetUrl = new URL(targetCategory + userID);
             httpConnection = (HttpURLConnection) tagetUrl.openConnection();
 
             httpConnection.setDoOutput(true);
-            httpConnection.setRequestMethod("POST");
+            httpConnection.setRequestMethod("PATCH");
             httpConnection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
             String credentials = user + ":" + pass;
             String credBase64 = Base64.encodeToString(credentials.getBytes(), Base64.DEFAULT).replace("\n", "");

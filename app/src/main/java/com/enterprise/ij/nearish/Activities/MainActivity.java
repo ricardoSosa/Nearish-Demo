@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         String id = getIntent().getStringExtra("id");
+        Log.d("IIIIIIIIID", id);
         String email = getIntent().getStringExtra("email");
         String[] emailParts = email.split("@");
         String name = emailParts[0];
@@ -217,6 +218,7 @@ public class MainActivity extends AppCompatActivity
         Object[] dataTransfer = new Object[1];
         url = serverUrl + rootStr + latStr + lngStr;
         dataTransfer[0] = url;
+        Log.d("URLLLLL", url);
         GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
         try {
             googlePlacesData = getNearbyPlacesData.execute(dataTransfer).get();
@@ -237,5 +239,9 @@ public class MainActivity extends AppCompatActivity
 
     public void setLngStr(Double lng) {
         this.lngStr = "&lng=" + lng;
+    }
+
+    public String getUserId() {
+        return this.user.getToken();
     }
 }

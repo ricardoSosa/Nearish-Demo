@@ -9,6 +9,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -52,8 +53,8 @@ public class GettingToKnowYou extends AppCompatActivity {
                     userLikablePlaceTask = new UserLikablePlaceTask();
                     userLikablePlaceTask.execute();
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    intent.putExtra("id", Usuario.getUserInstance().getToken());
-                    intent.putExtra("email", Usuario.getUserInstance().getemail());
+                    intent.putExtra("id", getIntent().getStringExtra("id"));
+                    intent.putExtra("email", getIntent().getStringExtra("email"));
                     startActivity(intent);
                 }else {
                     int placesLeft = 5- selectedPlacesQuantity;
@@ -92,7 +93,7 @@ public class GettingToKnowYou extends AppCompatActivity {
                 ImageView selectedImage = (ImageView) v.findViewById(R.id.likablePlaceImage);
 
                 if(!isPlaceSelected(selectedPlace)){
-                    selectedImage.setColorFilter(ContextCompat.getColor(v.getContext(),R.color.LightSkyBlue), PorterDuff.Mode.MULTIPLY);
+                    selectedImage.setColorFilter(ContextCompat.getColor(v.getContext(),R.color.DeepSkyBlue), PorterDuff.Mode.MULTIPLY);
                     selectedImage.setBackgroundResource(R.drawable.border_place);
                     selectedPlaces.add(selectedPlace);
                     selectedPlacesQuantity++;
@@ -126,6 +127,10 @@ public class GettingToKnowYou extends AppCompatActivity {
             return true;
         }
 
+        @Override
+        protected void onPostExecute(Object o) {
+            userLikablePlaceTask=null;
+        }
 
     }
 }

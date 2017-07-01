@@ -10,6 +10,7 @@ public class Category {
     private String id;
     private String name;
     private int image;
+    private boolean checked;
 
     public Category(String name, int image) {
         this.name = name;
@@ -45,4 +46,8 @@ public class Category {
     public void setImage(int image) {
         this.image = image;
     }
+
+    public boolean getChecked() { return checked; }
+
+    public void setChecked(boolean checked) { this.checked = checked; }
 }

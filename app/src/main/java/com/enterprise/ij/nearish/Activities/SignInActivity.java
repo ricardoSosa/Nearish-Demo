@@ -398,6 +398,8 @@ public class SignInActivity extends AppCompatActivity implements LoaderCallbacks
             // Simulate network access.
             //Thread.sleep(2000);
             ServiceHandler serviceHandler = new ServiceHandler();
+            Usuario.getUserInstance().setemail(mEmail);
+            Usuario.getUserInstance().setpassword(mPassword);
             String answer = serviceHandler.executePostAuth(mEmail,mPassword);
 
             if(answer.contains("false")||answer.contains("MalformedURLException")||answer.isEmpty()){

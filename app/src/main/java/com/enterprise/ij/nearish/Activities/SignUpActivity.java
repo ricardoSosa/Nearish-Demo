@@ -27,8 +27,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.enterprise.ij.nearish.Models.Usuario;
 import com.enterprise.ij.nearish.Other.ServiceHandler;
 import com.enterprise.ij.nearish.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +62,7 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
     private Button signUpButton;
     private View mProgressView;
     private View mSignUpFormView;
+    private Usuario user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +104,8 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
         signUpButton.setEnabled(true);
         setResult(RESULT_OK, null);
         Intent intent = new Intent(this, GettingToKnowYou.class);
+        intent.putExtra("id", Usuario.getUserInstance().getToken());
+        intent.putExtra("email", Usuario.getUserInstance().getemail());
         startActivity(intent);
     }
 
@@ -430,8 +437,26 @@ public class SignUpActivity extends AppCompatActivity implements LoaderCallbacks
             if(answer.contains("Failed")){
                 return false;
             }
-            else{
-                return true;
+            else {
+                String ans = serviceHandler.executePostAuth(mEmail, mPassword);
+
+                if (ans.contains("false") || ans.contains("MalformedURLException") || ans.isEmpty()) {
+                    return false;
+                } else if (ans.contains("Connection error")) {
+                    return null;
+                } else {
+                    JSONArray JSONanswer = null;
+                    try {
+                        JSONanswer = new JSONArray(ans);
+
+                        user = Usuario.getUserInstance();
+                        user.setToken(JSONanswer.getJSONObject(0).getString("id"));
+                        System.out.println(Usuario.getUserInstance());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    return true;
+                }
             }
 
             /**Ciclo en el cual se comparan los Emails y Contraseñas alamacenados en el Array tipo

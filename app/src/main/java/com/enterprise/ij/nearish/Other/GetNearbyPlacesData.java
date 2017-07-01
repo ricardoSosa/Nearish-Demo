@@ -15,7 +15,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.HashMap;
 import java.util.List;
 
-public class GetNearbyPlacesData  extends AsyncTask<Object, String, String> {
+public class GetNearbyPlacesData extends AsyncTask<Object, String, String> {
 
     String url;
 

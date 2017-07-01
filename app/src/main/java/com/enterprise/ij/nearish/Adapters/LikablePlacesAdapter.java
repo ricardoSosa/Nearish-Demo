@@ -62,10 +62,8 @@ public class LikablePlacesAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View v = convertView;
 
-        if (convertView == null) {
-            LayoutInflater inf = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            v = inf.inflate(R.layout.likable_place_item, null);
-        }
+        LayoutInflater inf = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        v = inf.inflate(R.layout.likable_place_item, null);
 
         Place dir = places.get(position);
 

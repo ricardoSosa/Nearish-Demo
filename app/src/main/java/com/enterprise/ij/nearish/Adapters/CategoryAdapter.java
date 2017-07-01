@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -23,10 +24,12 @@ public class CategoryAdapter extends BaseAdapter {
 
     protected Activity activity;
     protected ArrayList<Category> categories;
+    protected ArrayList<Category> userCategories;
 
-    public CategoryAdapter(Activity activity, ArrayList<Category> categories) {
+    public CategoryAdapter(Activity activity, ArrayList<Category> categories, ArrayList<Category> userCategories) {
         this.activity = activity;
         this.categories = categories;
+        this.userCategories = userCategories;
     }
 
     @Override
@@ -63,7 +66,7 @@ public class CategoryAdapter extends BaseAdapter {
             v = inf.inflate(R.layout.category_item, null);
         }
 
-        Category dir = categories.get(position);
+        final Category dir = categories.get(position);
 
         ImageView imagen = (ImageView) v.findViewById(R.id.categoryImage);
         imagen.setImageResource(dir.getImage());
@@ -72,7 +75,22 @@ public class CategoryAdapter extends BaseAdapter {
         name.setText(dir.getName());
 
         ToggleButton favButton = (ToggleButton) v.findViewById(R.id.favButton);
-        
+        favButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if ( dir.getChecked() ){
+                    dir.setChecked(false);
+                } else {
+                    dir.setChecked(true);
+                }
+            }
+        });
+        for (Category userCategory : userCategories) {
+            if (userCategory.getName().equals(dir.getName())) {
+                favButton.setChecked(true);
+                dir.setChecked(true);
+            }
+        }
 
         return v;
     }
